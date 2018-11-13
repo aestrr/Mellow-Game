@@ -10,7 +10,7 @@ public class Driver {
 
 
     public static void main(String[] args) {
-        System.out.println("fuck you");
+        System.out.println("LEGGGGOOOOOO BOIIIIIII");
         Battle battle = new Battle();
         battle.startBattle(new Denise(100), new DragonOfFlame(100));
     }
