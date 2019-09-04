@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class Battle {
 
-    private Monster MyDenise;
+    private Monster My;
     private boolean allyProtected = false;
     private Monster enemyD;
     private boolean enemyProtected = false;
@@ -25,16 +25,16 @@ public class Battle {
 
         Random r = new Random();
 
-        MyDenise = ally;
-        MyDenise.setName("ally" + " " + MyDenise.getName());
+        My = ally;
+        My.setName("ally" + " " + My.getName());
 
         enemyD = enemy;
         enemyD.setName("Enemy" + " " + enemyD.getName());
 
 
-        while (!MyDenise.isDefeated() && !enemyD.isDefeated()) {
+        while (!My.isDefeated() && !enemyD.isDefeated()) {
 
-            MyDenise.getStats();
+            My.getStats();
             System.out.println(" ");
             enemyD.getStats();
             System.out.println(" ");
@@ -54,16 +54,16 @@ public class Battle {
                     break;
                 }
 
-                if (MyDenise.getSpeed() > enemyD.getSpeed()) {
+                if (My.getSpeed() > enemyD.getSpeed()) {
                     allyUsesMovesFirst(ans, command);
 
-                } else if (MyDenise.getSpeed() <= enemyD.getSpeed()) {
+                } else if (My.getSpeed() <= enemyD.getSpeed()) {
                     enemyUsesMovesFirst(ans, command);
                 }
 
                 checkStatus();
 
-                if (MyDenise.isDefeated()) {
+                if (My.isDefeated()) {
                     System.out.println("U lost!");
                 } else if (enemyD.isDefeated()) {
 
@@ -87,21 +87,21 @@ public class Battle {
 
                 case "a":
                     System.out.println("which ability to use?");
-                    int numAbilities = MyDenise.getAbilities().size();
+                    int numAbilities = My.getAbilities().size();
                     for (int i = numAbilities; i > 0; i--) {                                         //prints all ability the curr ally has
-                        System.out.println("press " + i + " to use " + MyDenise.getAbilities().get(i - 1).getName() +
-                                " : " + MyDenise.getAbilities().get(i - 1).getDescription());
+                        System.out.println("press " + i + " to use " + My.getAbilities().get(i - 1).getName() +
+                                " : " + My.getAbilities().get(i - 1).getDescription());
                     }
 
                     String abilityChoice = command.next();
                     for (int n = numAbilities; n > 0; n--) {                      //performs selected ability
                         if (abilityChoice.equals(Integer.toString(n))) {
 
-                            Ability abilityChosen =  MyDenise.getAbilities().get(n - 1);
+                            Ability abilityChosen =  My.getAbilities().get(n - 1);
 
                             if (enemyProtected && abilityChosen.getAbilityType() == AbilityType.singleTargetDamage) {
                                 flag = 1;
-                                System.out.println("Enemy protected " + MyDenise.getName() + "'s attack has no effect!");
+                                System.out.println("Enemy protected " + My.getName() + "'s attack has no effect!");
                                 enemyLastUsedAbility = abilityChosen;
                                 this.enemyProtected = false;
                                 break;
@@ -112,7 +112,7 @@ public class Battle {
                                     abilityChosen.increaseDmg(allyLastUsedAbility.getDamage());
 
                                     flag = 1;
-                                    //MyDenise.getAbilities().get(n - 1).setUser(MyDenise);
+                                    //My.getAbilities().get(n - 1).setUser(My);
                                     abilityChosen.printBattleDmg(enemyD);
                                     abilityChosen.perform(enemyD);
                                     abilityChosen.decreaseDmg((allyLastUsedAbility.getDamage()));
@@ -124,7 +124,7 @@ public class Battle {
                                 allyProtected = true;
 
                             flag = 1;
-                            //MyDenise.getAbilities().get(n - 1).setUser(MyDenise);
+                            //My.getAbilities().get(n - 1).setUser(My);
                             abilityChosen.printBattleDmg(enemyD);
                             allyLastUsedAbility = abilityChosen;
                             abilityChosen.perform(enemyD);
@@ -143,13 +143,13 @@ public class Battle {
 
     private void enemyUsesMovesFirst(String ans, Scanner command) {
         enemyUsesMoves();
-        if (!MyDenise.isDefeated() && !enemyD.isDefeated())
+        if (!My.isDefeated() && !enemyD.isDefeated())
             allyUsesMoves(ans, command);
     }
 
     private void allyUsesMovesFirst(String ans, Scanner command) {
         allyUsesMoves(ans, command);
-        if (!MyDenise.isDefeated() && !enemyD.isDefeated())
+        if (!My.isDefeated() && !enemyD.isDefeated())
             enemyUsesMoves();
     }
 
@@ -171,15 +171,15 @@ public class Battle {
                 chosen.getAbilityType() == AbilityType.singleTargetDamage) {
 
                 chosen.increaseDmg(enemyLastUsedAbility.getDamage());
-                chosen.printBattleDmg(MyDenise);
-                chosen.perform(MyDenise);
+                chosen.printBattleDmg(My);
+                chosen.perform(My);
                 chosen.decreaseDmg(enemyLastUsedAbility.getDamage());
                 enemyLastUsedAbility = chosen;
         } else {
             if (chosen.getName().equals(new HellCurse().getName()))                                                //check for protected
                 enemyProtected = true;
-            chosen.printBattleDmg(MyDenise);
-            chosen.perform(MyDenise);
+            chosen.printBattleDmg(My);
+            chosen.perform(My);
             enemyLastUsedAbility = chosen;
         }
     }
@@ -193,9 +193,9 @@ public class Battle {
 
     private void checkStatus() {
 
-        if (MyDenise.getStatus().equals(Status.burned)) {
-            MyDenise.decreaseCurrentHealth(MyDenise.getMaxHealth()/10);
-            System.out.println(MyDenise.getName() + " is burning!!! Inflicted " + MyDenise.getMaxHealth()/10 + " hp!!!");
+        if (My.getStatus().equals(Status.burned)) {
+            My.decreaseCurrentHealth(My.getMaxHealth()/10);
+            System.out.println(My.getName() + " is burning!!! Inflicted " + My.getMaxHealth()/10 + " hp!!!");
             System.out.println("");
         }
 
